@@ -1,0 +1,70 @@
+{% extends 'core/base.html'%}
+{% block title %} Home {% endblock title %}
+{% block main_content %}
+<section class="container">
+    <div class = "row justify-content-around text-center text-white mt-5">
+        <div class="col-sm-8 ">
+        <h3>JOB FINDER</h3>
+    </div>
+</div>
+<div class="row justify-content-around mt-3">
+    <div class="col-sm-8">
+        <a href="{%  url 'add-job' %}" class="btn btn-primary float-end">Add</a>
+    </div>
+</div>
+    <div class = "row justify-content-around text-center text-white mt-1">
+        <div class="col-sm-8 ">
+
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">position</th>
+                      <th scope="col">job time</th>
+                      <th scope="col">job type</th>
+                      <th scope="col">place of work</th>
+                     <th scope="col">posted date</th>
+                     <th scope="col">deadline</th>
+                     <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for job in jobdata %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter}}</th>
+                      <td>{{job.position}}</td>
+                      <td>{{job.job_time}}</td>
+                      <td>{{job.job_type}}</td>
+                      <td>{{job.place_of_work}}</td>
+                      <td>{{job.posted_date}}</td>
+                      <td>{{job.deadline}}</td>
+                      <td class ="aline-inline">
+                        <table>
+                           <tr>
+                            <td>
+                                <form action="{% url 'delete-job' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value={{job.id}}>
+                                    <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{% url 'edit-job' job.id %}" class ="btn btn-info">edit</a>
+                            </td>
+                           </tr> 
+                        </table>
+                       
+                      </td>
+                      
+                    </tr>
+                   {% endfor %}
+                    
+                  </tbody>
+              </table>
+        </div>
+    </div>
+    
+</section>
+
+
+{% endblock main_content %}
